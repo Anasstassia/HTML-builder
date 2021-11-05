@@ -13,12 +13,12 @@ const assetsFolder = path.join(__dirname, "/assets");
 const stylesBundle = createWriteStream(bundleCssFilePath);
 const str = createWriteStream(bundleCssFilePath);
 
-//создаем дирикторию project-dist
+// создание дирикторию project-dist
 fs.mkdir(templateFolder, { recursive: true }, (err) => {
   if (err) throw err;
 });
 
-// собираем все стили в общий файл
+// собор всех стилей в общий файл
 stylesBundle.once("open", () =>
   fs.readdir(stylesFolder, { withFileTypes: true }, (err, files) => {
     for (let file of files) {
@@ -35,3 +35,5 @@ stylesBundle.once("open", () =>
     }
   })
 );
+
+//перенос папки assets в папку project-dist

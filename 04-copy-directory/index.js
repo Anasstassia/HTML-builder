@@ -3,8 +3,8 @@ const { copyFile } = require("fs/promises");
 const path = require("path");
 
 async function copyDir() {
-  const filesFolder = path.join(__dirname, "/files");
-  const copyFolder = path.join(__dirname, "/files-copy");
+  const filesFolder = path.join(__dirname, "files");
+  const copyFolder = path.join(__dirname, "files-copy");
 
   //создаем директорию
   fs.mkdir(copyFolder, { recursive: true }, (err) => {
