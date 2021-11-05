@@ -5,6 +5,7 @@ const { createReadStream, createWriteStream } = require("fs");
 const filesFolder = path.join(__dirname, "/styles");
 const bundleFilePath = path.join(__dirname, "/project-dist/bundle.css");
 const newBundle = createWriteStream(bundleFilePath);
+const str = createWriteStream(bundleFilePath);
 
 newBundle.once("open", () =>
   fs.readdir(filesFolder, { withFileTypes: true }, (err, files) => {
