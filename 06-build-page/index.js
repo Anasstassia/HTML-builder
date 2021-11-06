@@ -1,4 +1,5 @@
 const fs = require("fs");
+const fsPromises = require("fs/promises");
 const path = require("path");
 const { createReadStream, createWriteStream } = require("fs");
 const { copyFile } = require("fs/promises");
@@ -38,9 +39,7 @@ stylesBundle.once("open", () =>
 );
 
 //перенос папки assets в папку project-dist
-
 async function copyDir() {
-  //создаение папки assets
   fs.mkdir(assetsCopyFolder, { recursive: true }, (err) => {
     if (err) throw err;
   });
@@ -77,22 +76,26 @@ async function copyDir() {
     });
   }
   listObjects(assetsFolder);
-
-  //   fs.readdir(filesFolder, { withFileTypes: true }, (err, files) => {
-  //     files.forEach((file) => {
-  //       if (file.isFile()) {
-  //         fs.copyFile(
-  //           path.join(filesFolder, path.basename(file.name)),
-  //           path.join(copyFolder, path.basename(file.name)),
-  //           (err) => {
-  //             if (err) throw err;
-  //           }
-  //         );
-  //       }
-  //     });
-  //   });
 }
 
 copyDir();
 
 //замена шаблонов в html
+
+async function f() {
+  let template = await fsPromises.readFile(templateFile, "utf-8");
+
+  let components = await fsPromises.readdir(componentsFolder);
+
+  for (let component of components) {
+    let file = await fsPromises.readFile(
+      path.join(componentsFolder, component),
+      "utf-8"
+    );
+    let componentName = path.basename(component, ".html");
+    template = template.replace(`{{${componentName}}}`, file);
+  }
+  await fsPromises.writeFile(bundleHtmlFilePath, template);
+}
+
+f();
